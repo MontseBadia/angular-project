@@ -1,20 +1,39 @@
 <!--The content below is only a placeholder and can be replaced.-->
-<div style="text-align:center">
-  <h1>
-    Welcome to {{ title }}!
-  </h1>
-  <img width="300" alt="Angular Logo" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNTAgMjUwIj4KICAgIDxwYXRoIGZpbGw9IiNERDAwMzEiIGQ9Ik0xMjUgMzBMMzEuOSA2My4ybDE0LjIgMTIzLjFMMTI1IDIzMGw3OC45LTQzLjcgMTQuMi0xMjMuMXoiIC8+CiAgICA8cGF0aCBmaWxsPSIjQzMwMDJGIiBkPSJNMTI1IDMwdjIyLjItLjFWMjMwbDc4LjktNDMuNyAxNC4yLTEyMy4xTDEyNSAzMHoiIC8+CiAgICA8cGF0aCAgZmlsbD0iI0ZGRkZGRiIgZD0iTTEyNSA1Mi4xTDY2LjggMTgyLjZoMjEuN2wxMS43LTI5LjJoNDkuNGwxMS43IDI5LjJIMTgzTDEyNSA1Mi4xem0xNyA4My4zaC0zNGwxNy00MC45IDE3IDQwLjl6IiAvPgogIDwvc3ZnPg==">
-</div>
-<h2>Here are some links to help you start: </h2>
-<ul>
-  <li>
-    <h2><a target="_blank" rel="noopener" href="https://angular.io/tutorial">Tour of Heroes</a></h2>
-  </li>
-  <li>
-    <h2><a target="_blank" rel="noopener" href="https://github.com/angular/angular-cli/wiki">CLI Documentation</a></h2>
-  </li>
-  <li>
-    <h2><a target="_blank" rel="noopener" href="https://blog.angular.io/">Angular blog</a></h2>
-  </li>
-</ul>
 
+  <h1>{{title}}</h1>
+
+  <p><input type="checkbox" [(ngModel)]="showForm"> Show form</p>
+
+  <form [hidden]="!showForm">
+    <div class="field">
+      <label for="name">Name</label>
+      <input id="name" type="text" [(ngModel)]="name" name="name">
+    </div>
+    <div class="field">
+        <label for="country">Country</label>
+        <select id="country" [(ngModel)]="country" name="country">
+          <option value="">- select one - </option>
+          <option value="spain">Spain</option>
+          <option value="england">England</option>
+          <option value="portugal">Portugal</option>
+        </select>
+      </div>
+      <div [ngSwitch]="country">
+        <p *ngSwitchCase="'spain'">olé</p>
+        <p *ngSwitchCase="'portugal'">olá</p>
+        <p *ngSwitchCase="'england'">oi?</p>
+        <p *ngSwitchDefault>WTF?</p>
+      </div>
+    <button (click)="handleAddClick()">Add to list</button>
+  </form>
+
+
+  <p>{{students | json}}</p>
+  <ul>
+    <li *ngFor="let student of students, let ix = index" [ngClass]="{'tall': student.height > 1.80}">
+      <h3>{{student.name | crazy: 'a'| uppercase}}</h3>
+      <p>Country: {{student.country}}</p>
+      <p>Height: {{student.height | currency: 'EUR' : 'symbol' : '1.2-2'}}</p>
+      <button (click)="handleRemoveClick(ix)">Remove from list</button>
+    </li>
+  </ul>
